@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     AudioSource source = AudioSource.uri(Uri.parse(
-        'https://music.soncore.net/rest/stream?u=silverphoenix&t=21d1c8e073ab2d382a7851db389154ca&s=006c9d&f=json&v=1.8.0&c=NavidromeUI&id=1e302c09f1db3fda6d0f1d5f46ec4e97&_=1722452772861'));
+        'https://music.soncore.net/rest/download?u=silverphoenix&t=21d1c8e073ab2d382a7851db389154ca&s=006c9d&f=json&v=1.8.0&c=NavidromeUI&id=1e302c09f1db3fda6d0f1d5f46ec4e97&_=1722452772861'));
     player.setAudioSource(source);
     player.play();
 
