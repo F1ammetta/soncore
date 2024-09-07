@@ -1,4 +1,4 @@
-# soncore
+# Soncore
 
 A new Flutter project.
 
