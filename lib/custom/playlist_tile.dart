@@ -20,13 +20,13 @@ class _PlaylistTileState extends State<PlaylistTile> {
       child: Container(
         width: widget.compressSide? 60 : 180,
         height: 60,
-        child:  widget.compressSide? CoverArt(client: widget.playlist.client, coverId: widget.playlist.coverArt)
+        child:  widget.compressSide? CoverArt(client: widget.playlist.client, coverId: widget.playlist.coverArt, size: 60)
           : Row(
             children: [
               SizedBox(
                 height: 60,
                 width: 60,
-                child: CoverArt(client: widget.playlist.client, coverId: widget.playlist.coverArt)
+                child: CoverArt(client: widget.playlist.client, coverId: widget.playlist.coverArt, size: 60),
               ),
               Expanded(
                 child: Container(

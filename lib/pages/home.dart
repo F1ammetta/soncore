@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soncore/custom/source_form.dart';
 import 'package:soncore/pages/dashboard.dart';
+import 'package:soncore/pages/start_page.dart';
 import '../utils/server_interaction.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                           height: _openform? 100 : 220,
                           child: Container(
                             padding: const EdgeInsets.all(10.0),
-                            child: Image.asset('images/soncore_white.png')
+                            child: Image.asset('images/soncore.png')
                           )
                         ),
                         Text('Welcome', 
@@ -70,7 +71,9 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.pushAndRemoveUntil(
                               context, 
-                              MaterialPageRoute(builder: (context) => const Dashboard()),
+                              MaterialPageRoute(builder: (context) => const Dashboard(
+                                child: StartPage(),
+                              )),
                               ModalRoute.withName('/')
                             );
                           },

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:soncore/custom/side_bar.dart';
+import '../utils/server_interaction.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  const Dashboard({super.key, required this.child});
+
+  final Widget child;
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -12,6 +15,7 @@ class _DashboardState extends State<Dashboard> {
 
   bool _hideData = false;
   bool _compressSide = false;
+  String _currentRoute = '/';
 
   double _sideBarSize = 250;
 
@@ -23,6 +27,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Stack(
         children: [
           Row(
@@ -45,8 +50,43 @@ class _DashboardState extends State<Dashboard> {
                 child: Column(
                   children: [
                     Container(
+                      alignment: Alignment.center,
                       height: 60,
-                      child: const Placeholder(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              print('Start');
+                              if (navKey.currentState!.mounted && _currentRoute != '/') {
+                                _currentRoute = '/';
+                                navKey.currentState!.pushReplacementNamed('/');
+                              }
+                            },
+                            icon: const Icon(Icons.home_filled),
+                          ),
+                          SearchBar(
+                            onTap: () {
+                              print('Search');
+                              if (navKey.currentState!.mounted && _currentRoute != '/search') {
+                                _currentRoute = '/search';
+                                navKey.currentState!.pushReplacementNamed('/search');
+                              }
+                            },
+                            trailing: [
+                              const Divider(
+                                height: 20,
+                                thickness: 2,
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.search),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Container(
@@ -54,7 +94,7 @@ class _DashboardState extends State<Dashboard> {
                           children: [
                             Expanded(
                               child: Container(
-                                child: Placeholder(),
+                                child: widget.child,
                               ),
                             ),
                             Container(

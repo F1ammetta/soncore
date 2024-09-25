@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:subsonic_api/subsonic_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final navKey = GlobalKey<NavigatorState>();
+
 final testSalt = createSalt();
 final testToken = createToken('tangamandapio', testSalt);
 
@@ -86,11 +88,47 @@ Future<List<AppPlaylist>> loadPlaylists() async {
   return list;
 }
 
+Future<List<Artist>> loadArtists() async {
+  List<Artist> list = [];
+  for (var client in clients) {
+    final response = await client.getArtists();
+    list.addAll(response);
+  }
+  return list;
+}
+
+// class CoverArt extends StatelessWidget {
+//   const CoverArt({super.key, required this.client, required this.coverId, required this.size});
+
+//   final SubSonicClient client;
+//   final String coverId;
+//   final int size;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return FutureBuilder(
+//       future: client.getCover(coverId, size),
+//       builder: (context, snapshot) {
+//         return Container(
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(10),
+//             image: DecorationImage(
+//               image: MemoryImage(snapshot.data!),
+//               fit: BoxFit.scaleDown
+//             )
+//           ),
+//         );
+//       }
+//     );
+//   }
+// }
+
 class CoverArt extends StatelessWidget {
-  const CoverArt({super.key, required this.client, required this.coverId});
+  const CoverArt({super.key, required this.client, required this.coverId, required this.size});
 
   final SubSonicClient client;
   final String coverId;
+  final int size;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +137,7 @@ class CoverArt extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
-          image: NetworkImage('${data[0]}/rest/getCoverArt?u=${data[1]}&t=${data[2]}&s=${data[3]}&c=${data[4]}&v=${data[5]}&id=$coverId'),
+          image: NetworkImage('${data[0]}/rest/getCoverArt.view?u=${data[1]}&t=${data[2]}&s=${data[3]}&c=${data[4]}&v=${data[5]}&id=$coverId&size=$size&f=json'),
           fit: BoxFit.scaleDown
         )
       ),

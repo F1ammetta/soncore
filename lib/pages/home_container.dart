@@ -1,7 +1,10 @@
+// Deprecated: This file is no longer in use.
+
 import 'package:flutter/material.dart';
 import 'package:soncore/pages/dashboard.dart';
 import 'package:soncore/pages/home.dart';
 import 'package:soncore/utils/server_interaction.dart';
+import 'package:soncore/pages/start_page.dart';
 
 class HomeContainer extends StatefulWidget {
   const HomeContainer({super.key});
@@ -23,7 +26,7 @@ class _HomeContainerState extends State<HomeContainer> {
       future: loadClients(), 
       builder: (context, snapshot) {
         print(clients);
-        return clients.isEmpty? HomePage() : Dashboard();
+        return clients.isEmpty? const HomePage() : const Dashboard(child: StartPage());
       }
     );
   }
