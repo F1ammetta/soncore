@@ -67,6 +67,11 @@ class _DashboardState extends State<Dashboard> {
                             icon: const Icon(Icons.home_filled),
                           ),
                           SearchBar(
+                            constraints: const BoxConstraints(
+                              maxWidth: 500,
+                              minWidth: 200,
+                              maxHeight: 50,
+                            ),
                             onTap: () {
                               print('Search');
                               if (navKey.currentState!.mounted && _currentRoute != '/search') {
@@ -74,6 +79,7 @@ class _DashboardState extends State<Dashboard> {
                                 navKey.currentState!.pushReplacementNamed('/search');
                               }
                             },
+                            hintText: 'Search',
                             trailing: [
                               const Divider(
                                 height: 20,

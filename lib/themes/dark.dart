@@ -96,6 +96,14 @@ ThemeData dark() {
     iconTheme: const IconThemeData(
       color: secondaryTextColor,
       size: 30
-    )
+    ),
+    searchBarTheme: const SearchBarThemeData(
+      backgroundColor: WidgetStatePropertyAll(Color(0xff1D2428)),
+      hintStyle: WidgetStatePropertyAll(TextStyle(
+        color: Color(0xff95a1ac),
+        fontSize: 16.0,
+        fontWeight: FontWeight.normal,
+      )),
+    ),
   );
 }
