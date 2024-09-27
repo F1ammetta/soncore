@@ -19,9 +19,20 @@ class _DashboardState extends State<Dashboard> {
 
   double _sideBarSize = 250;
 
+  // final TextEditingController _searchController = TextEditingController();
+  late FocusNode _searchFocusNode;
+
   @override
   void initState() {
     super.initState();
+
+    _searchFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -58,7 +69,6 @@ class _DashboardState extends State<Dashboard> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              print('Start');
                               if (navKey.currentState!.mounted && _currentRoute != '/') {
                                 _currentRoute = '/';
                                 navKey.currentState!.pushReplacementNamed('/');
@@ -67,16 +77,16 @@ class _DashboardState extends State<Dashboard> {
                             icon: const Icon(Icons.home_filled),
                           ),
                           SearchBar(
+                            focusNode: _searchFocusNode,
                             constraints: const BoxConstraints(
                               maxWidth: 500,
                               minWidth: 200,
                               maxHeight: 50,
                             ),
                             onTap: () {
-                              print('Search');
                               if (navKey.currentState!.mounted && _currentRoute != '/search') {
                                 _currentRoute = '/search';
-                                navKey.currentState!.pushReplacementNamed('/search');
+                                navKey.currentState!.pushReplacementNamed('/search', arguments: _searchFocusNode);
                               }
                             },
                             hintText: 'Search',
@@ -86,7 +96,12 @@ class _DashboardState extends State<Dashboard> {
                                 thickness: 2,
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (navKey.currentState!.mounted && _currentRoute != '/search') {
+                                    _currentRoute = '/search';
+                                    navKey.currentState!.pushReplacementNamed('/search', arguments: _searchFocusNode);
+                                  }
+                                },
                                 icon: const Icon(Icons.search),
                               )
                             ],
