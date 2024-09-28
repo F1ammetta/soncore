@@ -4,7 +4,7 @@ import '../utils/server_interaction.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key, required this.child});
-
+  
   final Widget child;
 
   @override
@@ -44,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(8, 8, 4, 8),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primaryContainer,
@@ -52,6 +52,17 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   width: _compressSide? _sideBarSize : _sideBarSize,
                   child: SideBar(
+                    onCompression: () {
+                      setState(() {
+                        _compressSide = !_compressSide;
+                        if (_compressSide) {
+                          _sideBarSize = 80;
+                        }
+                        else {
+                          _sideBarSize = 250;
+                        }
+                      });
+                    },
                     compressSide:  _compressSide,
                     width: _sideBarSize,
                   ),
@@ -114,8 +125,30 @@ class _DashboardState extends State<Dashboard> {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                child: widget.child,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.surface,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                                        Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+                                        Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter
+                                    ),
+                                    borderRadius: BorderRadius.circular(20)
+                                  ),
+                                  child: DraggableScrollableSheet(builder: (context, scrollController) {
+                                    return SingleChildScrollView(
+                                      controller: scrollController,
+                                      child: widget.child,
+                                    );
+                                  }, initialChildSize: 1, minChildSize: 1, maxChildSize: 1),
+                                ),
                               ),
                             ),
                             Container(
@@ -132,6 +165,7 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
                 onPressed: () {
@@ -140,19 +174,19 @@ class _DashboardState extends State<Dashboard> {
                   });
                 },
               ),
-              FloatingActionButton(
-                onPressed: () {
-                  setState(() {
-                    _compressSide = !_compressSide;
-                    if (_compressSide) {
-                      _sideBarSize = 80;
-                    }
-                    else {
-                      _sideBarSize = 250;
-                    }
-                  });
-                },
-              )
+              // FloatingActionButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       _compressSide = !_compressSide;
+              //       if (_compressSide) {
+              //         _sideBarSize = 80;
+              //       }
+              //       else {
+              //         _sideBarSize = 250;
+              //       }
+              //     });
+              //   },
+              // )
             ],
           ),
         ],

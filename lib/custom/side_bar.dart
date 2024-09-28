@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:soncore/custom/playlist_list.dart';
 
 class SideBar extends StatefulWidget {
-  const SideBar({required this.compressSide, required this.width, super.key});
+  const SideBar({required this.compressSide, required this.width, required this.onCompression, super.key});
   
+  final VoidCallback onCompression;
   final bool compressSide;
   final double width;
 
@@ -21,6 +22,19 @@ class _SideBarState extends State<SideBar> {
           width: widget.width,
           padding: widget.compressSide? const EdgeInsets.all(10) : const EdgeInsets.all(20),
           child: Image.asset('images/soncore.png'),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: widget.compressSide? MainAxisAlignment.center : MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: IconButton(
+                onPressed: widget.onCompression, 
+                icon: widget.compressSide? const Icon(Icons.arrow_right_outlined, size: 20,) : const Icon(Icons.arrow_left_outlined, size: 20)
+              ),
+            )
+          ],
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -50,7 +64,7 @@ class _SideBarState extends State<SideBar> {
           child: PlaylistList(
             compressSide: widget.compressSide,
           ),
-        )
+        ),
       ],
     );
   }

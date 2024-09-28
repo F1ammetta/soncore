@@ -10,7 +10,7 @@ ThemeData dark() {
       primary: Color.fromARGB(255, 29, 196, 199),
       secondary: Color(0x4C3984EF),
       primaryContainer: Color(0xff1D2428),
-      surface: Color.fromARGB(84, 0, 2, 34),
+      surface: Color.fromARGB(255, 11, 11, 18),
       onSurface: Color(0xffffffff),
     ),
     fontFamily: primaryFontFamily,
@@ -95,7 +95,7 @@ ThemeData dark() {
     ),
     iconTheme: const IconThemeData(
       color: secondaryTextColor,
-      size: 30
+      size: 25
     ),
     searchBarTheme: const SearchBarThemeData(
       backgroundColor: WidgetStatePropertyAll(Color(0xff1D2428)),
