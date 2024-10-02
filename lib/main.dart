@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
         future: loadClients(),
         builder: (context, snapshot) {
-          print(clients);
           return MaterialApp(
             navigatorKey: navKey,
             title: 'Soncore',

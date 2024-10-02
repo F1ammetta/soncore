@@ -39,14 +39,14 @@ class AppPlaylist extends Playlist {
   }
 }
 
-Future<void> loadClients() async {
+Future<List<SubSonicClient>> loadClients() async {
   final prefs = await SharedPreferences.getInstance();
   final rawClients = prefs.getStringList('Clients') ?? [];
   for (var rawClient in rawClients) {
     final data = rawClient.split('~');
-    clients.add(
-        SubSonicClient(data[0], data[1], data[2], data[3], data[4], data[5]));
+    clients.add(SubSonicClient(data[0], data[1], data[2], data[3], data[4], data[5]));
   }
+  return clients;
 }
 
 Future<void> updateClients() async {
@@ -58,8 +58,7 @@ Future<void> updateClients() async {
   prefs.setStringList('Clients', newRawClients);
 }
 
-Future<void> createClient(BuildContext context, String url, String clientName,
-    String username, String password) async {
+Future<void> createClient(BuildContext context, String url, String clientName, String username, String password) async {
   String salt = createSalt();
   String token = createToken(password, salt);
 
@@ -75,6 +74,15 @@ Future<void> createClient(BuildContext context, String url, String clientName,
   if (context.mounted) {
     ScaffoldMessenger.maybeOf(context)!.showSnackBar(snackBar);
   }
+}
+
+Future<List<Artist>> loadArtists() async {
+  List<Artist> list = [];
+  for (var client in clients) {
+    final response = await client.getArtists();
+    list.addAll(response);
+  }
+  return list;
 }
 
 Future<List<AppPlaylist>> loadPlaylists() async {
@@ -93,21 +101,14 @@ Future<AppPlaylist> loadPlaylistById(String id, SubSonicClient client) async {
   return AppPlaylist(playlist, client: client);
 }
 
-Future<List<Artist>> loadArtists() async {
-  List<Artist> list = [];
-  for (var client in clients) {
-    final response = await client.getArtists();
-    list.addAll(response);
-  }
-  return list;
-}
-
 Future<void> addPlaylistToRecent(AppPlaylist playlist) async {
   final prefs = await SharedPreferences.getInstance();
   
-  if (recentPlaylists.length >= 10) {
+  if (recentPlaylists.contains(playlist)) {
+    recentPlaylists.remove(playlist);
+  } else if (recentPlaylists.length >= 10) {
     recentPlaylists.removeAt(0);
-  }
+  } 
   
   recentPlaylists.add(playlist);
 
@@ -115,21 +116,25 @@ Future<void> addPlaylistToRecent(AppPlaylist playlist) async {
   for (var playlist in recentPlaylists) {
     newRecentPlaylists.add(playlist.toString());
   }
+
   prefs.setStringList('RecentPlaylists', newRecentPlaylists);
 }
 
-Future<void> loadRecentPlaylists() async {
+Future<List<AppPlaylist>> loadRecentPlaylists() async {
   final prefs = await SharedPreferences.getInstance();
   final rawRecentPlaylists = prefs.getStringList('RecentPlaylists') ?? [];
   for (var rawPlaylist in rawRecentPlaylists) {
     final data = rawPlaylist.split(';');
     final client = clients.firstWhere((element) => element.toString() == data[1]);
-    final playlist = await client.getPlaylist(data[0]);
-    if (recentPlaylists.isEmpty) {
-      recentPlaylists.clear();
+    final playlist = await loadPlaylistById(data[0], client);
+    if (recentPlaylists.contains(playlist)) {
+      recentPlaylists.remove(playlist);
+    } else if (recentPlaylists.length >= 10) {
+      recentPlaylists.removeAt(0);
     }
     recentPlaylists.add(AppPlaylist(playlist, client: client));
   }
+  return recentPlaylists;
 }
 
 // class CoverArt extends StatelessWidget {

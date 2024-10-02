@@ -16,7 +16,6 @@ class _PlaylistTileState extends State<PlaylistTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('Playlist: ${widget.playlist.name}');
         addPlaylistToRecent(widget.playlist);
       },
       child: Card(

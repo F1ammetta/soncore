@@ -76,7 +76,7 @@ class _ItemCarouselState extends State<ItemCarousel> {
                       borderRadius: BorderRadius.circular(10)
                     ),
                     child: Center(
-                      child: Text(item.name, style: Theme.of(context).primaryTextTheme.headlineMedium),
+                      child: Text(item.toString(), style: Theme.of(context).primaryTextTheme.headlineMedium),
                     ),
                   );
                 }).toList(),

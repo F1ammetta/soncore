@@ -14,18 +14,14 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Text(
-        //   'Welcome to Soncore',
-        //   style: Theme.of(context).primaryTextTheme.headlineLarge,
-        // ),
         Container(
           padding: const EdgeInsets.all(20),
           child: FutureBuilder(
             future: loadRecentPlaylists(),
             builder: (context, snapshot) {
               return ItemCarousel(
-                title: 'Featured Songs',
-                items: recentPlaylists,
+                title: 'Recent Playlists',
+                items: snapshot.hasData? snapshot.requireData : recentPlaylists,
                 itemSize: 200,
               );
             }
